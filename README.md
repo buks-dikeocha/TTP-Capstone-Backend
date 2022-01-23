@@ -1,4 +1,4 @@
-# HealthyFriend app Front end.
+# HealthyFriend app Backend.
 
 This is a project created by Jerry Aviles(Jerrry-10), Ming Chen(sunflower2022), Chukwuebuka Dikeocha(buks-dikeocha), Victoria Jaczynski (victoria0514)\
 
