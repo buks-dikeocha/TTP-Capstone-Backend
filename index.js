@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 
 // app.get("/", async())
 
-app.post("/newuser", async (req, res) => {
+app.post("/users", async (req, res) => {
     try {
         const {fn, ln, e, pw, dob, p, bt, i, ep} = req.body
 
@@ -23,7 +23,7 @@ app.post("/newuser", async (req, res) => {
             RETURNING *
         `, [fn, ln, e, pw, dob, p, bt, i, ep])
 
-        res.json(newUser)
+        res.json(newUser.rows[0])
     } catch (error) {
         console.error(error.message)
     }
