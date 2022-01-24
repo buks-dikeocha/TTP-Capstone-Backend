@@ -6,9 +6,10 @@ const compression = require("compression")
 const app = express()
 
 app.use(cors())
+app.use(express.json())
 
 app.get("/", (req, res) => {
-    res.send("Hello Mars")
+    req
 })
 
 app.listen(5432, () => {
