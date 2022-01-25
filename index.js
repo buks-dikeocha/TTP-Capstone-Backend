@@ -14,7 +14,7 @@ app.use(compression())
 app.use(bodyParser.json())
 
 app.get("/", (req, res) => {
-    res.send("Web")
+    res.send("Web app")
 })
 
 app.post("/users", async (req, res) => {
