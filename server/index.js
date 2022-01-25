@@ -55,6 +55,19 @@ app.put("/users/:id", async(req,res)=>{
     }
 });
 
+//delete a user
+app.delete("/users/:id",async(req,res)=>{
+   try{
+     const{id}=req.params;
+     const deleteUser=await pool.query("DELETE FROM users WHERE userid=$1",[id]);
+     res.json("user was deleted!")
+   }catch(err){
+     console.log(err.message);
+   }
+});
+
+
+
 
 
 
