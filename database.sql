@@ -43,5 +43,5 @@ CREATE TABLE goal(
     goaldate VARCHAR(255),
     fitness INT,
     nutrition INT,
-    exercise INT
+    sleep INT
 );

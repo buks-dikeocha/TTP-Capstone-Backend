@@ -4,6 +4,7 @@ const bodyParser = require("body-parser")
 const compression = require("compression")
 const bcrypt = require("bcryptjs")
 const pool = require("./db")
+const {validEmail, validPassword} = require("./validate")
 
 const app = express()
 
@@ -25,11 +26,26 @@ app.post("/signup", async (req, res) => {
 
         let errors = {}
 
-        // check email
+        if(!validEmail(e)){
+            errors.email = "Invalid email"
+        }
 
-        //check password
+        if(!validPassword(pw)){
+            errors.password = "Invlaid password"
+        }
 
-        // is email in use
+        const usingEmail = await pool.query(`
+            SELECT * FROM "users"
+            WHERE email = $1
+        `, [e])
+
+        if(usingEmail.rows.length > 0){
+            errors.email = "Email in use"
+        }
+
+        if(Object.keys(errors).length > 0){
+            res.status(400).json(errors)
+        }
 
         const salts = await bcrypt.genSalt(10)
         const pw_enc = await bcrypt.hash(pw, salts)
