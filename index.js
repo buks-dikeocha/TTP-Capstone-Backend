@@ -40,7 +40,7 @@ app.post("/signup", async (req, res) => {
             RETURNING *
         `, [fn, ln, e, pw_enc, dob, p, bt, i, ep])
 
-        res.send(newUser.rows[0])
+        res.send("newUser.rows[0]")
 
         // res.send("post")
     } catch (error) {
