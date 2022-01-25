@@ -21,26 +21,28 @@ app.get("/", (req, res) => {
 // sign up
 app.post("/signup", async (req, res) => {
     try {
-        const {fn, ln, e, pw, dob, p, bt, i, ep} = req.body
+        // const {fn, ln, e, pw, dob, p, bt, i, ep} = req.body
 
-        let errors = {}
+        // let errors = {}
 
-        // check email
+        // // check email
 
-        //check password
+        // //check password
 
-        // is email in use
+        // // is email in use
 
-        const salts = await bcrypt.genSalt(10)
-        const pw_enc = await bcrypt.hash(pw, salts)
+        // const salts = await bcrypt.genSalt(10)
+        // const pw_enc = await bcrypt.hash(pw, salts)
 
-        const newUser = await pool.query(`
-            INSERT INTO "users" (firstname, lastname, email, password, dob, phone, bloodtype, insurancename, emergencyphone)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-            RETURNING *
-        `, [fn, ln, e, pw_enc, dob, p, bt, i, ep])
+        // const newUser = await pool.query(`
+        //     INSERT INTO "users" (firstname, lastname, email, password, dob, phone, bloodtype, insurancename, emergencyphone)
+        //     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        //     RETURNING *
+        // `, [fn, ln, e, pw_enc, dob, p, bt, i, ep])
 
-        res.json(newUser.rows[0])
+        // res.send(newUser.rows[0])
+
+        res.send("post")
     } catch (error) {
         console.error(error.message)
     }
