@@ -37,3 +37,11 @@ CREATE TABLE IF NOT EXISTS user_visit
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
+
+CREATE TABLE goal(
+    id SERIAL PRIMARY KEY,
+    goaldate VARCHAR(255),
+    fitness INT,
+    nutrition INT,
+    exercise INT
+);
