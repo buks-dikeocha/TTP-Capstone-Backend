@@ -66,6 +66,66 @@ app.delete("/users/:id",async(req,res)=>{
    }
 });
 
+//create a goal
+app.post("/goals",async(req,res)=>{
+
+  try{
+    
+     const{fitness,nutrition,exercise}=req.body;
+     const newGoal=await pool.query("INSERT INTO goal (fitness,nutrition,exercise) VALUES($1,$2,$3) RETURNING * ",[fitness,nutrition,exercise]);
+     res.json(newGoal.rows[0]);
+ }catch(err){  
+   console.error(err.message);
+  }
+ });
+
+ //get all goals
+app.get("/goals",async(raq,res)=>{
+  try{
+    const allGoal=await pool.query("SELECT * FROM goal");
+    res.json(allGoal.rows)
+  }catch(err){
+      console.error(err.message)
+  }
+})
+
+//get a goal
+app.get("/goals/:id",async(req,res)=>{
+  try{
+      const{id}=req.params;
+      const oneGoal =await pool.query("SELECT * FROM goal WHERE id=$1",[id]);
+      res.json(oneGoal.rows[0]);
+  }catch(err)
+  {
+         console.error(err.message);
+  }
+})
+
+//update goal
+app.put("/goals/:id", async(req,res)=>{
+  try{
+   const{id}=req.params;
+   const{fitness,nutrition,exercise}=req.body;
+   const updateGoal=await pool.query("UPDATE goal SET fitness=$1,nutrition=$2,exercise=$3 WHERE id=$4",
+   [fitness,nutrition,exercise,id]);
+   res.json("Goal was updated!");
+  }catch(err){
+      console.error(err.message);
+  }
+});
+
+//delete a goal
+app.delete("/goals/:id",async(req,res)=>{
+  try{
+    const{id}=req.params;
+    const deleteGoal=await pool.query("DELETE FROM goal WHERE id=$1",[id]);
+    res.json("goal was deleted!")
+  }catch(err){
+    console.log(err.message);
+  }
+});
+ 
+
 
 
 
