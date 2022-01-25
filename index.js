@@ -14,9 +14,9 @@ app.use(express.json())
 app.use(compression())
 app.use(bodyParser.json())
 
-// app.get("/", (req, res) => {
-//     res.send("Web")
-// })
+app.get("/", (req, res) => {
+    res.send("Web")
+})
 
 // sign up
 app.post("/signup", async (req, res) => {
