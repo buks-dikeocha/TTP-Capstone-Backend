@@ -71,8 +71,8 @@ app.post("/goals",async(req,res)=>{
 
   try{
     
-     const{fitness,nutrition,exercise}=req.body;
-     const newGoal=await pool.query("INSERT INTO goal (fitness,nutrition,exercise) VALUES($1,$2,$3) RETURNING * ",[fitness,nutrition,exercise]);
+     const{date,sleep,nutrition,fitness}=req.body;
+     const newGoal=await pool.query("INSERT INTO goal (date,sleep,nutrition,fitness) VALUES($1,$2,$3,$4) RETURNING * ",[date,sleep,nutrition,fitness]);
      res.json(newGoal.rows[0]);
  }catch(err){  
    console.error(err.message);
@@ -105,9 +105,9 @@ app.get("/goals/:id",async(req,res)=>{
 app.put("/goals/:id", async(req,res)=>{
   try{
    const{id}=req.params;
-   const{fitness,nutrition,exercise}=req.body;
-   const updateGoal=await pool.query("UPDATE goal SET fitness=$1,nutrition=$2,exercise=$3 WHERE id=$4",
-   [fitness,nutrition,exercise,id]);
+   const{date,sleep,nutrition,fitness}=req.body;
+   const updateGoal=await pool.query("UPDATE goal SET date=$1,sleep=$2,nutrition=$3,fitness=$4 WHERE id=$5",
+   [date,sleep,nutrition,fitness,id]);
    res.json("Goal was updated!");
   }catch(err){
       console.error(err.message);

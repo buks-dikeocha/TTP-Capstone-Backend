@@ -14,9 +14,10 @@ CREATE TABLE users(
 
 CREATE TABLE goal(
     id SERIAL PRIMARY KEY,
-    fitness VARCHAR(255),
-    nutrition VARCHAR(255),
-    exercise VARCHAR(255)
+    date VARCHAR(255),
+    sleep INT,
+    nutrition INT,
+    fitness INT  
 );
 
 CREATE TABLE visit(
