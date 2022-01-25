@@ -1,9 +1,9 @@
 const Pool=require("pg").Pool;
 const pool=new Pool({
 user: "postgres",
-password:"",  //depend on the pc which run the project
+password:"943360",  //depend on the pc which run the project
 host:"localhost",
 port:5432,
-database:"perntodo"
+database:"capstone"
 });
 module.exports=pool;
