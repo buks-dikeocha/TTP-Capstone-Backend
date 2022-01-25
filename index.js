@@ -14,7 +14,7 @@ app.use(compression())
 app.use(bodyParser.json())
 
 app.get("/", (req, res) => {
-    res.send("Web app")
+    res.send("Web")
 })
 
 app.post("/users", async (req, res) => {
@@ -28,6 +28,7 @@ app.post("/users", async (req, res) => {
         `, [fn, ln, e, pw, dob, p, bt, i, ep])
 
         res.json(newUser.rows[0])
+        console.log("we made it")
     } catch (error) {
         console.error(error.message)
     }
@@ -43,6 +44,6 @@ app.post("/users", async (req, res) => {
 // connecting
 
 
-app.listen(PORT, () => {
+app.listen(5000, () => {
     console.log(`opened on ${PORT}`)
 })
