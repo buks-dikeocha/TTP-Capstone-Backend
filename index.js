@@ -14,9 +14,9 @@ app.use(express.json())
 app.use(compression())
 app.use(bodyParser.json())
 
-app.get("/", (req, res) => {
-    res.send("Web")
-})
+// app.get("/", (req, res) => {
+//     res.json({a: "Web"})
+// })
 
 // sign up
 app.post("/signup", async (req, res) => {
@@ -40,13 +40,12 @@ app.post("/signup", async (req, res) => {
             RETURNING *
         `, [fn, ln, e, pw_enc, dob, p, bt, i, ep])
 
-        res.send("newUser.rows[0]")
+        res.json(newUser.rows[0])
 
         // res.send("post")
     } catch (error) {
         console.error(error.message)
     }
-
 })
 
 // log in
@@ -85,7 +84,12 @@ app.post("/login", async (req, res) => {
 // crud goal
 app.get("/goals", async (req, res) => {
     try {
-        const {desc} = req.body
+        // const {desc} = req.body
+        const goals = await pool.query(`
+            SELECT * from goal
+        `)
+
+        res.json(goals.rows)
     } catch (error) {
         console.error(error.message)
     }
