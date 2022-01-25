@@ -6,6 +6,8 @@ const pool = require("./db")
 
 const app = express()
 
+const PORT = process.env.PORT || 5000
+
 app.use(cors())
 app.use(express.json())
 app.use(compression())
@@ -41,6 +43,6 @@ app.post("/users", async (req, res) => {
 // connecting
 
 
-app.listen(5000, () => {
-    console.log("opened on 5000")
+app.listen(PORT, () => {
+    console.log(`opened on ${PORT}`)
 })
