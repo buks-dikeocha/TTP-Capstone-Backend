@@ -11,14 +11,16 @@ app.use(express.json())
 app.use(compression())
 app.use(bodyParser.json())
 
-// app.get("/", async())
+app.get("/", (req, res) => {
+    res.send("Web")
+})
 
 app.post("/users", async (req, res) => {
     try {
         const {fn, ln, e, pw, dob, p, bt, i, ep} = req.body
 
         const newUser = await pool.query(`
-            INSERT INTO "user" (firstname, lastname, email, password, dob, phone, bloodtype, insurancename, emergencyphone)
+            INSERT INTO "users" (firstname, lastname, email, password, dob, phone, bloodtype, insurancename, emergencyphone)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *
         `, [fn, ln, e, pw, dob, p, bt, i, ep])
