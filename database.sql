@@ -39,9 +39,24 @@ CREATE TABLE IF NOT EXISTS user_visit
 )
 
 CREATE TABLE goal(
-    id SERIAL PRIMARY KEY,
+    goalid SERIAL PRIMARY KEY,
     goaldate VARCHAR(255),
-    fitness INT,
-    nutrition INT,
-    sleep INT
+    fitnessgoal INT,
+    nutritiongoal INT,
+    sleepgoal INT
 );
+
+CREATE TABLE IF NOT EXISTS user_goal
+(
+    CONSTRAINT user_goal_pkey PRIMARY KEY (ug_id),
+    user_id integer,
+    goal_id integer,
+    CONSTRAINT userfk FOREIGN KEY (user_id)
+        REFERENCES public.users (userid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT goalfk FOREIGN KEY (goal_id)
+        REFERENCES public.goal (goalid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
