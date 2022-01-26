@@ -1,0 +1,79 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.Info-header {
+  background-color: lightblue;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: white;
+}
+body{
+  background-image:url("https://img.freepik.com/free-vector/clean-medical-background_53876-97927.jpg?size=626&ext=jpg");
+}
+h3{
+  padding: 10px;
+  border:2px solid green;
+  font-size:20px
+}
+p{
+  font-size:18px;
+  margin: 2px 2px;
+}
+.a {
+  list-style-type: square;
+  font-size:18px;
+
+}
+.button {
+  background-color: white; 
+  color: rgb(33, 75, 212); 
+  border: pink;
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 2px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #00ba28;
+  color: white;
+}
+.column {
+  float:left;
+  width: 40%; 
+}
+.column1 {
+  float: right;
+  width: 40%; 
+}
+
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
