@@ -4,7 +4,7 @@ const bodyParser = require("body-parser")
 const compression = require("compression")
 const bcrypt = require("bcryptjs")
 const pool = require("./db")
-const { validEmail, validPassword } = require("./validate")
+const { emailIsValid, passwordIsValid } = require("./validate")
 
 const app = express()
 
@@ -26,11 +26,11 @@ app.post("/signup", async (req, res) => {
 
 		let errors = {}
 
-		if (!validEmail(e)) {
+		if (!emailIsValid(e)) {
 			errors.email = "Invalid email"
 		}
 
-		if (!validPassword(pw)) {
+		if (!passwordIsValid(pw)) {
 			errors.password = "Invlaid password"
 		}
 
