@@ -15,6 +15,10 @@ app.use(express.json())
 app.use(compression())
 app.use(bodyParser.json())
 
+// app.get("/", (req, res) => {
+//     res.json({a: "Web"})
+// })
+
 // sign up
 app.post("/signup", async (req, res) => {
 	try {
@@ -27,7 +31,7 @@ app.post("/signup", async (req, res) => {
 		}
 
 		if (!passwordIsValid(pw)) {
-			errors.password = "Invalid password"
+			errors.password = "Invlaid password"
 		}
 
 		const usingEmail = await pool.query(
@@ -100,25 +104,117 @@ app.post("/login", async (req, res) => {
 	}
 })
 
-//get all goals
-app.get("/user/:userid/goals", async (req, res) => {
-	const { userid } = req.params
-
+// crud goal
+app.get("/goals", async (req, res) => {
 	try {
-		const allGoals = await pool.query(
+		// const {desc} = req.body
+		const goals = await pool.query(`
+            SELECT * from goal
+        `)
+
+		res.json(goals.rows)
+	} catch (error) {
+		console.error(error.message)
+	}
+})
+
+// // crud appointment
+// app.get("/visits", async (req, res) => {
+// 	try {
+// 		const visits = await pool.query(`
+//             SELECT * from visit
+//         `)
+
+// 		res.json(visits.rows)
+// 	} catch (error) {
+// 		console.error(error.message)
+// 	}
+// })
+
+// app.post("/visits", async (req, res) => {
+// 	try {
+// 		const { reason, clinicname, lastvisit } = req.body
+
+// 		const newVisit = await pool.query(
+// 			`
+//             INSERT INTO visit (reason, clinicname, lastvisit)
+//             VALUES ($1, $2, $3)
+//             RETURNING *
+//         `,
+// 			[reason, clinicname, lastvisit]
+// 		)
+
+// 		res.json(newVisit.rows[0])
+// 	} catch (error) {
+// 		console.error(error.message)
+// 	}
+// })
+
+// app.put("/visits/:id", async (req, res) => {
+// 	try {
+// 		const { id } = req.params
+// 		const { reason, clinicname, lastvisit } = req.body
+
+// 		const newVisit = await pool.query(
+// 			`
+//             UPDATE visit
+//             SET reason = $1, clinicname = $2, lastvisit = $3
+//             WHERE visitid = $4
+//             RETURNING *
+//         `,
+// 			[reason, clinicname, lastvisit, id]
+// 		)
+
+// 		res.json(newVisit.rows[0])
+// 	} catch (error) {
+// 		console.error(error.message)
+// 	}
+// })
+
+// app.delete("/visits/:id", async (req, res) => {
+// 	try {
+// 		const { id } = req.params
+
+// 		const toDel = await pool.query(
+// 			`
+//             DELETE FROM visit
+//             WHERE visitid = $1
+//         `,
+// 			[id]
+// 		)
+
+// 		res.json("deleted")
+// 	} catch (error) {
+// 		console.error(error.message)
+// 	}
+// })
+
+app.post("/goals", async (req, res) => {
+	try {
+		const { fitness, nutrition, exercise } = req.body
+		const newGoal = await pool.query(
 			`
-			SELECT users.userid, users.firstname, users.lastname, goal.fitness, goal.nutrition, goal.exercise
-			FROM user_goal
-			INNER JOIN users
-			ON users.userid = user_goal.user_id
-			INNER JOIN goal
-			ON goal.id = user_goal.goal_id
-			WHERE users.userid = $1
+            INSERT INTO goal (fitness, nutrition, exercise)
+            VALUES ($1,$2,$3)
+            RETURNING *
         `,
-			[userid]
+			[fitness, nutrition, exercise]
 		)
 
-		res.json(allGoals.rows)
+		res.json(newGoal.rows[0])
+	} catch (error) {
+		console.error(error.message)
+	}
+})
+
+//get all goals
+app.get("/goals", async (raq, res) => {
+	try {
+		const allGoal = await pool.query(`
+            SELECT * FROM goal
+        `)
+
+		res.json(allGoal.rows)
 	} catch (error) {
 		console.error(error.message)
 	}
@@ -130,47 +226,11 @@ app.get("/goals/:id", async (req, res) => {
 		const { id } = req.params
 		const oneGoal = await pool.query(
 			`
-			SELECT users.userid, users.firstname, users.lastname, goal.fitness, goal.nutrition, goal.exercise
-			FROM user_goal
-			INNER JOIN users
-			ON users.userid = user_goal.user_id
-			INNER JOIN goal
-			ON goal.id = user_goal.goal_id
-			WHERE goal.id = $1
+            SELECT * FROM goal WHERE id=$1
         `,
 			[id]
 		)
 		res.json(oneGoal.rows[0])
-	} catch (error) {
-		console.error(error.message)
-	}
-})
-
-app.post("/user/:userid/goals", async (req, res) => {
-	try {
-		const { userid } = req.params
-		const { fitness, nutrition, exercise } = req.body
-
-		const newGoal = await pool.query(
-			`
-            INSERT INTO goal (fitness, nutrition, exercise)
-            VALUES ($1, $2, $3)
-            RETURNING *
-        `,
-			[fitness, nutrition, exercise]
-		)
-
-		const newJoint = await pool.query(
-			`
-			INSERT INTO user_goal
-			(user_id, goal_id)
-			VALUES ($1, $2)
-			RETURNING *
-		`,
-			[userid, newGoal.rows[0].id]
-		)
-
-		res.json(newJoint.rows)
 	} catch (error) {
 		console.error(error.message)
 	}
@@ -181,17 +241,12 @@ app.put("/goals/:id", async (req, res) => {
 	try {
 		const { id } = req.params
 		const { fitness, nutrition, exercise } = req.body
-
 		const updateGoal = await pool.query(
 			`
-            UPDATE goal
-			SET fitness = $1, nutrition = $2, exercise = $3
-			WHERE id = $4
-			RETURNING *
+            UPDATE goal SET fitness=$1,nutrition=$2,exercise=$3 WHERE id=$4
         `,
 			[fitness, nutrition, exercise, id]
 		)
-
 		res.json("Goal was updated!")
 	} catch (error) {
 		console.error(error.message)
@@ -202,24 +257,13 @@ app.put("/goals/:id", async (req, res) => {
 app.delete("/goals/:id", async (req, res) => {
 	try {
 		const { id } = req.params
-
 		const deleteGoal = await pool.query(
 			`
-            DELETE FROM user_goal
-			WHERE goal_id = $1
+            DELETE FROM goal WHERE id=$1
         `,
 			[id]
 		)
-
-		await pool.query(
-			`
-			DELETE FROM goal
-			WHERE id = $1
-		`,
-			[id]
-		)
-
-		res.json("Goal was deleted!")
+		res.json("goal was deleted!")
 	} catch (error) {
 		console.log(error.message)
 	}
@@ -324,7 +368,63 @@ app.delete("/visits/:id", async (req, res) => {
 		console.error(error)
 	}
 })
+app.post("/todos", async (req,res) =>{
+    try{
+       const { description } = req.body;
+       const newTodo = await pool.query(
+           "INSERT INTO todo(description) VALUES($1) RETURNING *",
+            [description]
+       );
 
+       res.json(newTodo.rows[0])
+    }catch(err){
+    console.error(err.message);
+    }
+})
+//get all todo
+app.get("/todos", async(req,res)=>{
+    try{
+        const allTodos = await pool.query("SELECT * FROM todo");
+        res.json(allTodos.rows)
+    }catch(err){
+        console.log(err.message)
+    }
+})
+//get a todo
+app.get("/todos/:id", async (req, res) =>{
+    try{
+        const {id} = req.params;
+        const todo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [id])
+        res.json(todo.rows[0])
+    }catch(err){
+        console.error(err.message)
+    }
+})
+//update a todo
+app.put("/todos/:id", async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const {description} = req.body;
+        const updateTodo = await pool.query("UPDATE todo SET description = $1 WHERE todo_id = $2",
+        [description, id]);
+
+        res.json("Todo was updated!")
+    }catch(err){
+        console.error(err.message)
+    }
+})
+
+//delete a todo
+
+app.delete("/todos/:id", async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const deleteTodo = await pool.query("DELETE FROM todo WHERE todo_id = $1", [id])
+        res.json("Todo was deleted!")
+    }catch(err){
+        console.error(err.message)
+    }
+})
 app.listen(PORT, () => {
 	console.log(`opened on ${PORT}`)
 })
