@@ -1,6 +1,6 @@
 # HealthyFriend App Backend
 
-The HealthyFriend App allows its user to create goals in three areas: sleep, fitness, and nutrition. The user can create goals, update or delete existing ones, or view all goals. We utilized ExpressJS and NodeJS to create a server that manages our database, and PostgreSQL to create a datebase that stores the users information regarding their health goals. One hurdle we have yet to overcome is getting our backend to work on Heroku.
+The HealthyFriend App allows its user to create goals in three areas: sleep, fitness, and nutrition. The user can create goals, update or delete existing ones, or view all goals. We utilized ExpressJS and NodeJS to create a server that manages our database, and PostgreSQL to create a datebase that stores the users information regarding their health goals. One hurdle we have yet to overcome is getting our backend to work on Heroku. Joing tables in out relational database.
 
 The backend of this project and this repository were developed by Ming Chen (sunflower2022) and Chukwuebuka Dikeocha (buks-dikeocha)
 
