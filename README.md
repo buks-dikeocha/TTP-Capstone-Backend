@@ -5,7 +5,6 @@ The HealthyFriend App allows its user to create goals in three areas: sleep, fit
 The backend of this project and this repository were developed by Ming Chen (sunflower2022) and Chukwuebuka Dikeocha (buks-dikeocha)\
 
 The frontend of the HealthyFriend App was developed by Jerry Aviles (Jerrry-10) and Victoria Jaczynski (victoria0514) and can be found here:
-
 https://github.com/Jerrry-10/TTP-Capstone-Frontend
 
 
